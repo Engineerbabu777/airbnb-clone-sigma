@@ -1,34 +1,31 @@
-import React, { useState } from "react";
+import { useSearchStore } from "../../../store";
 
-type Props = {
-	label: string;
+const CountIcon = ({ icon, onClick }:{icon:any,onClick:any}) => {
+  return (
+    <button
+      onClick={onClick}
+      className="border rounded-full w-5 h-5 flex justify-center items-center"
+    >
+      <span className="text-slate-900">{icon}</span>
+    </button>
+  );
 };
 
-const CountIcon = ({ icon, onClick }) => {
-	return (
-		<button onClick={onClick} className="border rounded-full w-5 h-5 flex items-center justify-center">
-			<span>{icon}</span>
-		</button>
-	);
+ const Counter = ({ label }) => {
+  const count = useSearchStore((state) => state.guests);
+  const increaseCount = useSearchStore((state) => state.increaseGuests);
+  const decreaseCount = useSearchStore((state) => state.decreaseGuests);
+
+  return (
+    <div className="flex justify-between">
+      <p className="font-bold">{label}</p>
+      <div className="flex items-center gap-x-1">
+        {count > 0 && <CountIcon icon="-" onClick={decreaseCount} />}
+        <span>{count}</span>
+        <CountIcon icon="+" onClick={increaseCount} />
+      </div>
+    </div>
+  );
 };
 
-export default function Counter({ label }: Props) {
-	const [count, setCount] = useState(0);
-
-	return (
-		<>
-			<div className="flex justify-between ">
-				<p className="font-bold">{label}</p>
-				<div className="flex items-center gap-x-1">
-					{count > 0 && (
-						<CountIcon icon={"-"} onClick={() => setCount(count - 1)} />
-					)}
-					<span>{count}</span>
-					<span>
-						<CountIcon icon={"+"} onClick={() => setCount(count + 1)} />
-					</span>
-				</div>
-			</div>
-		</>
-	);
-}
+export default Counter;

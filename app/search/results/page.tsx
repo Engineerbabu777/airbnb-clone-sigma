@@ -1,14 +1,16 @@
+import React from "react";
+import ResultsList from "./ResultsList";
 
+type Props = {};
 
+export default async function ResultsPage({}: Props) {
+	const result = await fetch("http://localhost:3000/api/search");
+	const data = await result.json();
+	console.log(data);
 
-import React from 'react'
-
-type Props = {}
-
-export default function ResultsPage({}: Props) {
-  return (
-    <>
-    Results Page!
-    </>
-  )
+	return (
+		<>
+			<ResultsList data={data} />
+		</>
+	);
 }
